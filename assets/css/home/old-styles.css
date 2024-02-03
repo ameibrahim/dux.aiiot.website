@@ -1,0 +1,473 @@
+   /* Custom CSS for the page */
+   html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+  }
+   
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+  }
+
+  footer ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  footer ul li {
+    font-size: 16px;
+    margin-bottom: 10px;
+    line-height: 1.6;
+  }
+
+  footer ul li i {
+    margin-right: 10px;
+  }
+
+  .footer-heading {
+    font-size: 18px;
+  }
+
+/* .send-message-box {
+    position: relative;
+}
+
+.send-message-box input[type="text"] {
+    width: 100%;
+    padding: 10px;
+} */
+
+textarea {
+  flex: 19; /* Make textarea occupy 19/20 of the available space */
+  resize: none; /* Disable textarea resizing */
+}
+
+.send-icon-container {
+  flex: 1; /* Make send icon container occupy 1/20 of the available space */
+  text-align: center; /* Center the icon horizontally */
+  margin-left: 5px; /* Add some space between the textarea and icon */
+}
+
+/* Optional: Adjust the icon size if needed */
+#sendIcon {
+  font-size: 24px; /* Set the icon size */
+}
+
+.highlight {
+    color: #003366;
+    font-weight: bold;
+}
+
+.chat-history{
+  display: grid;
+  grid-gap: 20px;
+}
+
+.user-message {
+  background-color: #eaf2fd;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-gap: 10px;
+  padding: 13px;
+  border-radius: 10px;
+}
+
+.gpt-message {
+background-color: #F6F8FA;
+border: 1.5px solid #D0D7DE;
+border-radius: 10px;
+padding: 13px;
+display: grid;
+grid-template-columns: auto auto 1fr;
+grid-gap: 20px;
+align-items: start;
+}
+
+.gpt-message > p {
+grid-column: 1/-1;
+}
+
+.gpt-message > p > div h1 {
+margin-bottom: 13px;
+}
+
+/* FOR TIMETABLE */
+.timetable {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 10px;
+}
+
+.day-card {
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.day-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.day-card-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  cursor: pointer;
+  background-color: #c0d3f3;
+  color: #181b33;
+}
+
+.day-card-content i {
+  margin-right: 10px;
+}
+
+.day-card-tasks {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  background-color: #ffffff;
+  padding: 10px;
+}
+
+.day-card-tasks.active {
+  max-height: 200px;
+  overflow: auto;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+  border-bottom: 1px solid #ccc;
+}
+
+.task-item:last-child {
+  border-bottom: none;
+}
+
+.task-item label {
+  margin-right: 10px;
+}
+
+.task-item button {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+
+
+    /* Styles for the messaging UI */
+    .messagingM {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .tabsM {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .tab-btnM {
+      padding: 10px;
+      background-color: #f0f0f0;
+      border: none;
+      border-radius: 5px;
+      color: var(--accent);
+      cursor: pointer;
+    }
+    
+    .tab-btn.activeM {
+      background-color: #ddd;
+    }
+    
+    .create-btnM {
+      margin-left: auto;
+      background-color: #0080ff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+ 
+    
+    
+    .cardM {
+      /* Styles for the message card and create message card */
+      display: none;
+      padding: 20px;
+      background-color: #f5f5f5;
+      border-radius: 5px;
+    }
+    
+    .buttonsM {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 10px;
+    }
+    
+    .cancel-btnM,
+    .send-btnM {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    
+    .cancel-btnM {
+      background-color: #ccc;
+    }
+    
+    .send-btnM {
+      background-color: #0080ff;
+      color: #fff;
+    }
+    /* Styles for the create message form */
+    .cardM#createMessageCard {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    
+    #createMessageForm {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    #createMessageForm label {
+      margin-bottom: 5px;
+    }
+    
+    #createMessageForm input[type="text"],
+    #createMessageForm textarea {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+    
+    #createMessageForm textarea {
+      resize: vertical;
+    }
+    
+    #createMessageForm .buttons {
+      display: flex;
+      justify-content: flex-end;
+    }
+    
+    #createMessageForm .cancel-btn,
+    #createMessageForm .send-btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    
+    #createMessageForm .cancel-btn {
+      background-color: #ccc;
+      margin-right: 10px;
+    }
+    
+    #createMessageForm .send-btn {
+      background-color: #0080ff;
+      color: #fff;
+    }
+    
+    
+    /* Styles for the content area of the active tab */
+    .contentM {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+    }
+    
+    .contentM ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .contentM li {
+      padding: 8px 16px;
+      border-bottom: 1px solid #f0f0f0;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+    
+    .contentM li:last-child {
+      border-bottom: none;
+    }
+    
+    .contentM li:hover {
+      background-color: #f5f5f5;
+    }
+    
+    .cardM#messageCard {
+      /* Styles for the full message card */
+      max-width: 500px;
+      margin: 0 auto;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 20px;
+      display: none;
+    }
+    
+    .cardM#messageCard h2 {
+      margin-bottom: 10px;
+    }
+    
+    .cardM#messageCard p {
+      margin-bottom: 20px;
+    }
+    
+    .cardM#messageCard .close-btnM {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      background-color: #ccc;
+      cursor: pointer;
+    }
+    
+    .cardM#messageCard .close-btnM:hover {
+      background-color: #b3b3b3;
+    }
+
+            
+              .send-icon-container i {
+                pointer-events: auto; /* Enable click events for the icon */
+              }
+          
+              .send-icon-container i:hover {
+                color: #ff0000; /* Change the color on hover */
+              }
+          
+
+
+.cardS {
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cardS-body {
+  padding: 20px;
+}
+
+.cardS-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.cardS-text {
+  margin-bottom: 10px;
+}
+
+.api-key-link {
+  margin-top: 20px;
+}
+
+#api-key-instructions-card {
+  display: none;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+#api-key-instructions-card h5 {
+  margin-bottom: 10px;
+}
+
+#api-key-instructions-card ol {
+  margin-bottom: 10px;
+  padding-left: 20px;
+}
+
+#api-key-instructions-card li {
+  margin-bottom: 5px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  /* Collapse the navigation menu on mobile */
+  .navbar-collapse {
+    display: none;
+  }
+
+  /* Dropdown menus */
+  .dropdown-menu {
+    position: static;
+    float: none;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  /* Header */
+  .header {
+    padding: 20px 0;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 20px 0;
+  }
+
+  /* Chat section */
+  .chat-section {
+    width: 100%;
+  }
+
+  /* Chatroom section */
+  .chatr-section {
+    width: 100%;
+  }
+
+  /* Logged-in users section */
+  .instructionsr-section {
+    width: 100%;
+  }
+}
+
+/* Text Input Field */
+input[type="text"].form-control,
+input[type="email"],
+input[type="password"],
+input[type="number"] {
+  /* Add your desired styling options */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #333;
+  outline: none;
+}
+
+/* Select Field */
+
+
+/* Textarea Field */
+textarea {
+  /* Add your desired styling options */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #333;
+  outline: none;
+  resize: vertical; /* Allow vertical resizing */
+}

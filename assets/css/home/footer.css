@@ -1,0 +1,51 @@
+@media screen and (min-width: 700px){
+    footer{
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+footer {
+    background-color: #FFF5F8;
+    padding: 20px;
+    display: grid;
+    grid-gap: 20px;
+
+}
+
+footer .image {
+    width: 100%;
+    position: relative;
+    height: 50px;
+}
+
+footer .image > img {
+    height: 100%;
+    object-fit: contain;
+}
+
+.footer-heading {
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 24px;
+}
+
+.footer-text {
+    color: gray;
+    letter-spacing: 0.5px;
+}
+
+.footer-section, .footer-list {
+    display: grid;
+    grid-gap: 20px;
+}
+
+.footer-list > li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-column-gap: 20px;
+    align-items: center;
+}
+
+.footer-list > li > p {
+    grid-column: 2/-1;
+}

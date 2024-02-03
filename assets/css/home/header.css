@@ -1,0 +1,45 @@
+.header-navigation{
+    position: relative;
+    width: 100vw;
+    height: 70px;
+    position: relative;
+    border-bottom: 1px solid #6F203620;
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr auto;
+    grid-gap: 20px;
+    padding: 10px 20px;
+    background-color: white;
+}
+
+.top-logo {
+    /* border: 1px solid red; */
+    position: relative;
+    height: 50px;
+}
+
+.top-logo > img {
+    height: 50px;
+}
+
+.right-nav{
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-gap: 20px;
+    align-items: center;
+}
+
+.user-avatar{
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+
+#userName{
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.logout-icon{
+    cursor: pointer;
+}

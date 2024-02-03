@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Questions App</title>
+<!-- Bootstrap CSS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Manage Exam Questions</h2>
+        <form id="examForm">
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="courseCode">Select Course Code:</label>
+                    <select id="courseCode" class="form-control" name="courseCode">
+                        <!-- Add your course code options here -->
+                        <option value="C004">C004 - Intro to Robotics</option>
+                        <option value="C003">C003 - NLP</option>
+                        <!-- Add more options as needed -->
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="examType">Select Exam Type:</label>
+                    <select id="examType" class="form-control" name="examType">
+                        <option value="">Select Exam Type</option>
+                        <option value="Mid Term Exam">Mid Term Exam</option>
+                        <option value="Final Exam">Final Exam</option>
+                    </select>
+                </div>
+            </div>
+
+        </form>
+        <div id="statusDiv" class="mt-4">
+            <!-- Status and actions will be displayed here -->
+        </div>
+        <div class="generate-exam" style="margin-top: 20px;">
+            <button id="generateQuestionsBtn" class="btn btn-primary">Generate Questions</button>
+        </div>
+    </div>
+ 
+ 
+<!-- Modal for types of questions count-->
+<div class="modal fade" id="generateQuestionsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Specify how many of each type of question should be set for each topic. It is recommended to stay within the range of 1 to 4</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="mcqCount">MCQ Questions:</label>
+                    <input type="number" class="form-control" id="mcqCount">
+                </div>
+                <div class="form-group">
+                    <label for="fillBlankCount">Fill in the Blank Questions:</label>
+                    <input type="number" class="form-control" id="fillBlankCount">
+                </div>
+                <div class="form-group">
+                    <label for="freeResponseCount">Free Response Questions:</label>
+                    <input type="number" class="form-control" id="freeResponseCount">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="generate-exam-button">Generate</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Loader Modal -->
+<div class="modal" id="loaderModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Dux is working, please wait...</span>
+                </div>
+                <p>Dux is working, please wait...</p>
+            </div>
+        </div>
+    </div>
+</div>
+    
+
+<style>
+    .max-height {
+    max-height: 500px; /* Adjust the value as needed */
+}
+
+</style>
+<!-- Questions Modal -->
+<div class="modal fade" id="questionsModal" tabindex="-1" role="dialog" aria-labelledby="questionsModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="questionsModalLabel">Questions Manager</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <!-- Question List -->
+                        <div class="list-group overflow-auto max-height" id="questionList">
+                            <!-- Questions will be dynamically added here -->
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <!-- Question Details -->
+                        <div id="questionDetails">
+                            <!-- Question details will be dynamically added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!-- Custom scripts -->
+<script src="qsg.js"></script>
+<script>
+
+        // Function to start the loader
+function startLoader() {
+        $('#loaderModal').modal({ backdrop: 'static', keyboard: false });
+    }
+
+    // Function to stop the loader
+function stopLoader() {
+        $('#loaderModal').modal('hide');
+    }
+
+function checkAndDisplayExamFile() {
+    var courseCode = $("#courseCode").val();
+    var examType = $("#examType").val(); // Assuming this is the correct way to get the exam type
+    var fileName = courseCode + " " + examType + ".json";
+
+    $.ajax({
+        type: "POST",
+        url: "questions.php", // Replace with the actual URL to your PHP script
+        data: {
+            action: "checkfile",
+            fileName: fileName
+        },
+        success: function(res) {
+            var response = JSON.parse(res);
+            var statusDiv = $("#statusDiv");
+            console.log("RESPONSE: ", response.status);
+
+            if (response.status == "success") {
+                var fileContainer = $("<div>");
+                fileContainer.addClass("d-flex justify-content-between align-items-center");
+
+                var fileNameDiv = $("<div>");
+                fileNameDiv.text("Questions found for: " + fileName);
+
+                var deleteButton = $("<button>");
+                deleteButton.addClass("btn btn-danger");
+                deleteButton.text("Delete");
+                deleteButton.click(function() {
+                    // Delete file logic
+                    $.ajax({
+                        type: "POST",
+                        url: "questions.php",
+                        data: {
+                            action: "deletefile",
+                            fileName: fileName
+                        },
+                        success: function(res) {
+                            var deleteResponse = JSON.parse(res);
+                            if (deleteResponse.status === "success") {
+                                statusDiv.html("<div class='alert alert-success' role='alert'>File deleted successfully.</div>");
+                            } else {
+                                statusDiv.html("<div class='alert alert-danger' role='alert'>Error deleting file.</div>");
+                            }
+                        }
+                    });
+                });
+
+                var launchModalButton = $("<button>");
+                launchModalButton.addClass("btn btn-success");
+                launchModalButton.text("View");
+                launchModalButton.click(function() {
+                    $('#questionsModal').modal('show');
+                    // Implement the fetchQuestions function here
+                    fetchQuestions();
+                });
+
+                fileContainer.append(fileNameDiv);
+                fileContainer.append(deleteButton);
+                fileContainer.append(launchModalButton);
+                statusDiv.html(fileContainer);
+            } else {
+                statusDiv.html("No questions found for this exam. Please generate questions.");
+            }
+        },
+        error: function() {
+            alert("An error occurred while verifying the file.");
+        }
+    });
+}
+
+
+
+
+var mcqCount = 0; // Global variable to store MCQ count
+var fillBlankCount = 0; // Global variable to store Fill in the Blank count
+var freeResponseCount = 0; // Global variable to store Free Response count
+
+// Function to update global variables based on modal input
+function updateGlobalVariables() {
+    mcqCount = parseInt($("#mcqCount").val()) || 0;
+    fillBlankCount = parseInt($("#fillBlankCount").val()) || 0;
+    freeResponseCount = parseInt($("#freeResponseCount").val()) || 0;
+}
+
+// Function to open the modal
+function openGenerateQuestionsModal() {
+    $("#generateQuestionsModal").modal("show");
+}
+
+// Event listener for the "Generate Questions" button
+$("#generateQuestionsBtn").click(function() {
+    openGenerateQuestionsModal();
+});
+
+// Event listener for the "Generate" button in the modal
+// $("#generateQuestionsBtn").click(function() {
+//     updateGlobalVariables();
+//     // Call your generate function here with updated global variables
+//     // generateQuestions();
+//     // Close the modal
+//     $("#generateQuestionsModal").modal("hide");
+// });
+
+// Your generate function (replace this with your actual logic)
+
+
+
+
+    $(document).ready(function() {
+        // Function to verify the file when exam type select changes
+        $("#examType").change(function() {
+            checkAndDisplayExamFile();
+        });
+    });
+</script>
+<script>
+        $(document).ready(function () {
+      var userData = JSON.parse(sessionStorage.getItem('user'));
+      const sid = "STD020"; //userData.stdnumber;
+      
+      fetchCoursesForUser(sid, '#courseCode');
+
+      function fetchCoursesForUser(sid, cdId) {
+      $.ajax({
+        url: '../../api/api.php',
+        method: 'POST',
+        data: { studentId: sid, action: 'fetchCoursesForUserTeacher' },
+        dataType: 'json',
+        success: function (response) {
+          console.log('COURSES FETCHED SUCCESSFULY', response);
+          var courses = response.courses;
+          console.log("FIRST COURSE NAME: ", courses[0].name);
+          const courseSelect = $(cdId);
+          courseSelect.empty();
+          courseSelect.append('<option value="" style="background-color:lightblue;">  Select a Course  </option>');
+          // Add options for each course
+          courses.forEach(course => {
+            const option = $('<option></option>')
+              .val(course.id)
+              .text(course.name);
+            courseSelect.append(option);
+          });
+
+          // Trigger change event to populate topics for the selected course
+          courseSelect.trigger('change');
+          //sessionStorage.setItem("courseToLearn",courseId);
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.error('Failed to fetch courses:', errorThrown);
+        }
+      });
+    }
+        });
+</script>
+
+<script>
+ 
+    //GENERATING EXAMS
+
+    function fetchETopics(courseId, examType) {
+        console.log("Trying to fetch topics for: ",courseId)
+    return new Promise(function (resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '../../api/api.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    console.log('RETURNED WITH TOPICS: ', response);
+                    // Assuming filterLecturesByExamType is defined elsewhere
+                    var examTopics = filterLecturesByExamType(response, examType);
+                    temp_topics = [
+          { id: 1, name: "NLP techniques for sentiment analysis" }];
+                    resolve(temp_topics);
+                } else {
+                    console.error('Failed to fetch TOPICS:', xhr.statusText);
+                    reject(xhr.statusText);
+                }
+            }
+        };
+        xhr.send('action=fetchTopicsForCourse&courseId=' + encodeURIComponent(courseId));
+    });
+}
+
+
+let questionBank = {};
+
+
+ $(document).ready(function() {
+
+        
+    
+    //var generateExamBtn = document.getElementById('generate-exam-button');
+    $("#generate-exam-button").click(function() {
+        updateGlobalVariables();
+    // Call your generate function here with updated global variables
+    // generateQuestions();
+    // Close the modal
+    $("#generateQuestionsModal").modal("hide");
+        console.log('CLICKED EXAM BUTTON');
+        var courseId = $("#courseCode").val();
+        var examType = $("#examType").val();
+
+        startLoader();
+      
+        fetchETopics(courseId, examType)
+        .then(async function(examTopics) {
+          // Topics fetched successfully
+          console.log("Fetched topics:", examTopics);
+      
+          const tarray = []
+          for (let i = 0; i < examTopics.length; i++) {
+            tarray[i] = examTopics[i].name;
+          }
+          topics = tarray;
+          console.log('EXAM TYPE: ', examType);
+          console.log('EXAM TOPICS: ', topics);
+          const mycourse = courseId; //sessionStorage.getItem('courseToLearn');
+          //lets generate and save the question bank
+          const nqb =await generateQuestionBank(topics);
+          console.log('Question Bank:', nqb);
+          sessionStorage.setItem('questionBank', JSON.stringify(nqb));
+          saveQuestionBank(mycourse, examType, nqb);
+      
+      
+          return getQuestionBank(mycourse, examType);
+        })
+        .then(function(qb){
+        //   questionBank = qb;
+        //   sessionStorage.setItem('questionBank',JSON.stringify(qb));
+              stopLoader();
+              checkAndDisplayExamFile();
+        //   initializeExam();
+        //   modal.style.display = "block";
+        //   startExamBtn.textContent = "Exam Done.";
+        //   startExamBtn.disabled = true;
+        })
+        .catch(function(error) {
+          // Handle any errors that occur in the chain
+          console.error('Error: ' + error);
+        });
+   
+
+        
+      });
+      
+    });
+
+      
+// Function to generate the receipt document
+// const OPENAI_API_KEY = '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';
+// const OPENAI_API_KEY = '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';
+
+//jeries
+// const OPENAI_API_KEY = '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';
+// const OPENAI_API_KEY = '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';
+
+//dux ok
+// const OPENAI_API_KEY = "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";
+
+//save cash ok
+// const OPENAI_API_KEY = "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";
+// const OPENAI_API_KEY = "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";
+// const OPENAI_API_KEY = "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";
+const OPENAI_API_KEY = "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";
+
+async function generateResponse(prompt, topics) {
+
+  const endpoint = 'https://api.openai.com/v1/chat/completions';
+
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${OPENAI_API_KEY}`
+      },
+      body: JSON.stringify({
+        // model: 'gpt-3.5-turbo',
+        model: 'gpt-3.5-turbo-0613', // Specify GPT-4 model
+        messages: [
+          {
+            role: 'system',
+            content: 'You are a helpful assistant.'
+          },
+          {
+            role: 'user',
+            content: prompt
+          }
+        ],
+        max_tokens: 300
+      })
+    });
+
+    const data = await response.json();
+
+    // Display the completion response
+    console.log('HERE IS DATA FROM GPT: ', data.choices[0].message.content);
+
+    // You can process the response here or display it in the HTML, etc.
+    // For this example, we're just logging the output to the console.
+    return data.choices[0].message.content;
+  } catch (error) {
+    console.error('Error fetching response:', error);
+    return null;
+  }
+}
+
+const question_format = `  
+  {
+      type: "mcq",
+      question: "What is the capital of France?",
+      options: ["Paris", "Lisbon","Nicosia","Berlin"],
+      answer: "Paris",
+  },
+  {
+      type: "fill-blank",
+      question: "The largest planet in our solar system is __________.",
+      answer: "Jupiter",
+  },
+  {
+      type: "free-response",
+      question: "Explain the concept of gravity.",
+      answer: "Gravity is the force that attracts two bodies toward each other.",
+  },
+  // Add more questions here
+`
+
+async function generateQuestionBank(topics) {
+  var qBank = {};
+
+  async function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  for (let i = 0; i < topics.length; i++) {
+    const topic = topics[i];
+    const prompt = `Generate a mixture of ${mcqCount} mcqs, ${fillBlankCount} fill-the-blank and ${freeResponseCount} free-response questions with corresponding answers on the topic ${topic}, and return a json object as response. use the format: ${question_format} to present questions.`;
+
+    const questionsResponse = await generateResponse_QB(prompt);
+    console.log("SET: ", i);
+    console.log(questionsResponse);
+
+
+    // Store the questions in the question bank with the topic index as the key
+    // qBank[i] = {
+    //   topic:topic,
+    //   questions:questionsResponse
+    // };
+    qBank[topic] = (JSON.parse(questionsResponse)).questions
+    console.log('TOPIC SET: ', questionBank);
+    await delay(5000);
+  }
+
+  return qBank;
+}
+
+async function generateResponse_QB(prompt) {
+  const endpoint = 'https://api.openai.com/v1/chat/completions';
+
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${OPENAI_API_KEY}`
+      },
+      body: JSON.stringify({
+        model: 'gpt-3.5-turbo-0613',
+        messages: [
+          {
+            role: 'system',
+            content: `You are an exam specialist who can set exam questions of three types; mcqs, fill-the-blank and free-response, on any topic following the defined format: ${question_format}`
+          },
+          {
+            role: 'user',
+            content: prompt
+          }
+        ],
+        max_tokens: 1000, // Adjust the max_tokens as needed
+      })
+    });
+
+    const data = await response.json();
+    console.log('GPT DATA: ', data);
+    // Extract and return the question content
+    const question = data.choices[0].message.content.trim();
+    return question;
+  } catch (error) {
+    console.error('Error fetching response:', error);
+    return null;
+  }
+}
+
+
+
+function saveQuestionBank(courseId, topicId, questionBank) {
+  $.ajax({
+    url: '../../api/api.php',
+    type: 'POST',
+    data: {
+      action: 'saveQuestionBank',
+      questionBank: questionBank,
+      courseId: courseId,
+      topicId: topicId,
+    },
+    success: function (response) {
+      console.log(response);
+    },
+    error: function (xhr, status, error) {
+      console.log(xhr.responseText);
+    }
+  });
+}
+
+function filterLecturesByExamType(lectures, examType) {
+  if (examType === "Mid Term Exam") {
+    // Filter the first 8 lectures
+    return lectures.topics.slice(0, 8);
+  } else if (examType === "Final Exam") {
+    // Filter the first 8 lectures and lectures 10 to 13
+    return lectures.topics.slice(0, 8).concat(lectures.topics.slice(9, 13));
+  } else {
+    // Invalid examType
+    console.error("Invalid examType");
+    return [];
+  }
+}
+
+
+
+function getQuestionBank(courseId, topicId) {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: '../../api/api.php',
+      type: 'POST',
+      data: {
+        action: 'getQuestionBank',
+        courseId: courseId,
+        topicId: topicId
+      },
+      success: function (response) {
+        const qb =JSON.parse(response).content;
+        console.log('FETCHED QB FROM FILE: ', qb);
+        sessionStorage.setItem('questionBank', qb);
+        resolve(qb);
+      },
+      error: function (xhr, status, error) {
+        console.log(xhr.responseText);
+        reject(error);
+      }
+    });
+  });
+}
+
+
+
+</script>
+</body>
+</html>

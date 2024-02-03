@@ -1,0 +1,21 @@
+.batch-select-container {
+    border: 2px solid var(--accent);
+    border-radius: 10px;
+    padding: 13px;
+    background: #fdf8f8;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-gap: 30px;
+    align-items: center;
+    width: 100%;
+}
+
+.batch-select-container p {
+    color: var(--accent);
+    font-size: 1.13em;
+}
+
+.stretch-x {
+    grid-column: 1/-1;
+    text-align: center;
+}

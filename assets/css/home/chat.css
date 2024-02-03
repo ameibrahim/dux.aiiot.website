@@ -1,0 +1,124 @@
+.chat-room-section {
+    display: grid;
+    grid-gap: 20px;
+    grid-template-rows: auto 1fr auto;
+    /* border: 1px solid black; */
+    height: 100%;
+  }
+
+  .chatroom-chat-history{
+      display: grid;
+      grid-gap: 10px;
+      height: 100%;
+      overflow: scroll;
+  }
+
+  .send-chatroom-message-box {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-gap: 20px;
+  }
+
+  .send-chatroom-message-box > button {
+    place-self: end;
+  }
+
+  .send-chatroom-message-box > textarea,
+  .send-message-box textarea {
+    border: 2px solid var(--accent);
+    padding: 10px;
+    width: 100%;
+    color: var(--accent);
+  }
+
+  .left-message, .right-message {
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+    padding: 10px;
+    display: grid;
+    justify-self: start;
+    max-width: 300px;
+    grid-template-columns: auto 1fr;
+    grid-gap: 5px;
+    align-items: center;
+    border-radius: 10px;
+  }   
+
+  .right-message {
+    background-color: var(--accent);
+    justify-self: end;
+    color: white;
+    grid-template-columns: 1fr auto;
+  }
+
+  .message-content {
+      grid-column: 2/-1;
+  }
+
+  .right-message > .message-content {
+    grid-row: 2;
+    grid-column: 1/-1;
+  }
+
+.avatar {
+width: 30px;
+height: 30px;
+border-radius: 50%;
+}
+
+.message-author {
+font-weight: bold;
+}
+
+
+/* Online users */
+
+.chat-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.badge {
+  background-color: var(--accent);
+  color: white;
+  padding: 0.5em 1em;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.overlay {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0px;
+  left: 0px;
+  background-color: #00000030;
+  display: grid;
+  place-items: center;
+}
+
+.online-user-section {
+    /* max-width: 300px; */
+    max-height: 400px;
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    grid-gap: 20px;
+}
+
+.logged-in-users {
+  overflow: scroll;
+  display: grid;
+  grid-gap: 10px;
+}
+
+.logged-in-users > * {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  grid-gap: 10px;
+}

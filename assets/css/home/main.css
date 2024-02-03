@@ -1,0 +1,405 @@
+body {
+  overflow-x: hidden;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+body {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.main-section{
+    /* border: 1px solid red; */
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    height: calc(100vh - 70px);
+    overflow: hidden;
+}
+
+
+#classroom-content{
+    display: grid;
+    position: relative;
+    height: 100%;
+    box-sizing: border-box;
+    /* border: 1px solid red; */
+    grid-gap: 20px;
+    grid-template-columns: 1fr 300px;
+  }
+
+  .myselection{
+      /* border: 1px solid red; */
+      display: grid;
+      grid-gap: 10px;
+  }
+
+  .myselection > button {
+    justify-self: end;
+  }
+
+  .form-group{
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 10px;
+    align-items: center;
+  }
+
+  select {
+    /* Reset Select */
+    appearance: none;
+    outline: none;
+    border: 2px solid var(--accent);
+    box-shadow: none;
+    padding: 0 1em;
+    color: var(--accent);
+    background-color: white;
+    background-image: none;
+    cursor: pointer;
+  }
+  
+  /* Remove IE arrow */
+  select::-ms-expand {
+    display: none;
+  }
+
+  /* Custom Select wrapper */
+  .select {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    height: 40px;
+    border-radius: .25em;
+    overflow: hidden;
+    place-self: start;
+    width: 100%;
+  }
+
+  /* Arrow */
+  .select::after{
+    content: '\25BC';
+    font-size: 10px;
+    display: grid;
+    place-content: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 40px;
+    color: white;
+    background-color: var(--accent);
+    transition: .25s all ease;
+    pointer-events: none;
+  }
+
+
+  .chat-section {
+    padding: 0px;
+    background-color: white;
+    display: grid;
+    /* height: 100%; */
+    position: relative;
+    /* border: 1px solid green; */
+    grid-template-rows: auto auto 1fr auto auto;
+    grid-gap: 10px;
+  }
+
+  .chat-history {
+    height: 100%;
+    min-height:400px;
+    overflow-y: scroll;
+    background-color: #fff;
+    border: 3px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  button, .button{
+    border: none;
+    background: var(--accent);
+    padding: 1em 1.3em;
+    color: white;
+    font-size: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    justify-self: end;
+  }
+
+  .grid-button {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 10px;
+  }
+
+  .action-buttons{
+    display: grid;
+    grid-template-columns: 1fr repeat(3, auto);
+    grid-gap: 10px;
+    justify-items: end;
+    align-items: end;
+  }
+
+  .send-message-box{
+    display: grid;
+    grid-gap: 20px;
+    align-items: end;
+    grid-template-columns: 1fr auto;
+  }
+
+  .send-message-box textarea {
+    border: 3px solid var(--accent);
+    padding: 10px;
+    width: 100%;
+    min-height: 60px;
+    font-size: 1em;
+    color: var(--accent);
+  }
+
+  #sendIcon{
+    font-size: 1em;
+    cursor: pointer;
+  }
+
+  .two-column-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+  }
+
+  .timer-section{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    align-items: start;
+    grid-gap: 10px;
+    justify-self: end;
+    grid-template-rows: auto 1fr;
+    grid-gap: 10px;
+  }
+
+  .buttons {
+    width: 100%;
+    /* border: 1px solid red; */
+    grid-column: 1/-1;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    place-items: end;
+    grid-gap: 10px;
+  }
+
+  .ad-link {
+    background: linear-gradient(90deg, #ff2352, #f6186a, #e71383);
+    color: white;
+    width: 100%;
+    border-radius: 10px;
+    display: grid;
+    padding: 13px;
+    grid-gap: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    justify-self: center;
+    margin-bottom: 10px;
+    align-items: center;
+    position: relative;
+    text-align: center;
+    overflow: hidden;
+
+    -moz-user-select: none;
+    user-select: none;
+    -o-user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .ad-link > p{
+    z-index: 1;
+  }
+
+  .ad-link img {
+    filter: invert(100%);
+    position: absolute;
+    height: 50px;
+    top: -10px;
+    left: -10px;
+    z-index: 0;
+    opacity: 0.2;
+  }
+
+  .bg-blue{
+    background: linear-gradient(90deg, #3e79ee, #749cec, rgba(165,190,238,1));
+  }
+
+  .countdown-timer{
+    grid-template-columns: repeat(5, auto);
+  }
+
+  .countdown-timer, .timer-section > button {
+      margin-bottom: 0px;
+      background-color: blanchedalmond; 
+      height: 40px;
+      border-radius: 10px; 
+      font-size: 24px;
+      padding: 0px 1em;
+      display: grid;
+      align-items: center;
+      font-family: Menlo;
+      
+  }
+
+  .timer-section > button {
+      background-color: var(--accent);
+      font-size: 13px;
+  }
+
+  .instructions-section {
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto auto auto 1fr;
+    grid-gap: 20px;
+  }
+
+  .instructions-section img {
+    width: 100%;
+  }
+
+  .instruction-messages {
+      margin-bottom: 0px;
+  }
+
+  .instruction-image {
+      /* width: 100%; */
+      margin-top: 0px;
+  }
+
+  .welcome-message {
+      font-size: 14px;
+      line-height: 1.5;
+      text-align: justify; 
+  }
+
+  
+  .my-timetable{
+    display: grid;
+    grid-gap: 20px;
+  }
+
+  .button-group{
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: auto auto auto;
+    place-self: start;
+  }
+
+  
+  .api-key-container{
+    display: grid;
+    grid-gap: 10px;
+    padding: 40px;
+  }
+
+  #api-key-form {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 10px;
+  }
+
+  #api-key-form > button {
+    padding: 1em;
+  }
+
+  #api-key-status{
+    color: var(--accent);
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    font-size: 12px;
+  }
+
+  #api-key-preview {
+    border: 2px dashed var(--pop);
+    padding: 1em 2em;
+    border-radius: 5px;
+    color: var(--pop);
+    font-weight: bold;
+    justify-self: start;
+
+  }
+
+  a {
+    color: var(--pop);
+  }
+
+  .myselectG, .myselectGS {
+    display: grid;
+    grid-gap: 20px;
+  }
+
+  .myselectG, .myselectGS {
+    /* max-width: 400px; */
+  }
+
+  .myselectG button, .myselectGS button {
+    justify-self: end;
+  }
+
+
+  /* MEDIA QUERIES */
+
+@media screen and (max-width:1200px) {
+
+  #classroom-content{
+    grid-template-columns: 1fr;
+  }
+
+  .chat-history {
+    height: 500px;
+  }
+
+  .instructions-section > .tab-title {
+    grid-column: 1/-1;
+  }
+
+  .instructions-section {
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+  }
+
+  .instructions-section .image {
+    position: relative;
+    height: 100%;
+    width: 100%;
+  }
+
+  .image > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .instruction-image-container > .row { 
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+  }
+}
+
+@media screen and (max-width:1050px) {
+  .two-column-grid, .two-pane-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .main-section{
+    grid-template-columns: 1fr;
+    padding-top: 70px;
+    /* width: 100vw; */
+  }
+
+  .instructions-section {
+    grid-template-columns: 1fr;
+  }
+}
+
