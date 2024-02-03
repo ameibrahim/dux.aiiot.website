@@ -1,5 +1,7 @@
 exams/
 temp/
 uploads/
+coursefiles/
 error_log
 adminPanel/error_log
+.git
