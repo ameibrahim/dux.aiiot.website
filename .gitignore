@@ -1,7 +1,6 @@
-exams/*
-temp/*
-uploads/*
-coursefiles/*
+exams/
+temp/
+coursefiles/
 error_log
 adminPanel/error_log
 .git
