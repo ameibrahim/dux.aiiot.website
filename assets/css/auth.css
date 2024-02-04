@@ -5,9 +5,9 @@
 }
 
 :root{
-    --light-color: hsl(210, 20%, 90%);
-    --dark-color: hsl(0,0%,20%);
-    --border-size: 3px;
+    --light-color: #C70037;
+    --dark-color: #6F2036;
+    --border-size: 2px;
     --border-radius: 7px;
 }
 
@@ -127,10 +127,9 @@ input:valid.border-dark,
 
 body{
     display: grid;
-        height: 100vh;
-        width: 100vw;
-        place-items: center;
-        background: hsl(210, 50%, 96%);
+    height: 100vh;
+    width: 100vw;
+    place-items: center;
 }
 
 .form-container{
@@ -143,6 +142,7 @@ body{
     background: white;
     padding: 80px 40px 40px 40px;
     border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
 }
 
 .title-tag{
@@ -206,14 +206,13 @@ copyright{
 
 /* LOGIN INPUTS */
 
-.text-box, 
-.search-box {
+.text-box {
     position: relative;
     display: grid;
-}.text-box { width: 100%; }
+    width: 100%; 
+}
 
-.text-box > input, 
-.search-box > input{
+.text-box > input{
     position: relative;
     color: var(--dark-color);
     padding: 0.9em 1.3em;
@@ -229,31 +228,35 @@ copyright{
     min-width: 200px;
     width: 100%;
     letter-spacing: 0.3px;
-}.search-box > input { width: 500px; }
-.search-box > input { padding: 0.9em 2.6em 0.9em 1.3em; }
-.search-box:after{
-    content: "";
-    height: 15px;
-    width: 15px;
-    position: absolute;
-    background-image: url("search-dark.png");
-    right: 1em; 
-    align-self: center;
-    background-size: 100% 100%;
 }
-.bordered-icon-dark.search-box:after,
-.bordered-icon-dark.search-box:has(input:focus):after{ background-image: url("search-dark.png"); }
 
-.bordered-icon-dark.search-box:has(input:hover):after,
-.bordered-icon-dark.search-box:has(input:valid):after,
-.icon-dark.search-box:after{ background-image: url("search-light.png"); }
+.profile-picture-container{
+    display: grid;
+    width: 100%;
+    justify-items: center;
+    grid-gap: 10px;
+}
 
+#chosenPhoto {
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    border: 1px dashed black;
+    cursor: pointer;
+}
 
-/* #FAFFBD YELLOWWW*/
-/* input:hover{ transform: scaleX(1.05); } */
+#signupImageInput{
+    display: none;
+}
 
-/* input:focus{ width: 250px; } */
-.search-box > input:focus{ width: 700px; }
+.profile-picture-container > span {
+    text-transform: uppercase;
+    font-size: 0.7em;
+    letter-spacing: 1.7px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
 
 @keyframes rotate {
     0%{ transform: rotate(0deg); }

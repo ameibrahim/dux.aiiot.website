@@ -5,28 +5,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link rel="stylesheet" href="assets/css/home/old-styles.css?15">
-  <link rel="stylesheet" href="assets/css/home/index.css?15">
-  <link rel="stylesheet" href="assets/css/home/header.css?14">
-  <link rel="stylesheet" href="assets/css/home/main.css?14">
-  <link rel="stylesheet" href="assets/css/home/sidenavigation.css?13">
-  <link rel="stylesheet" href="assets/css/home/tab-card.css?13">
-  <link rel="stylesheet" href="assets/css/home/chat.css?13">
-  <link rel="stylesheet" href="assets/css/home/grade-cards.css?13">
-  <link rel="stylesheet" href="assets/css/home/footer.css?13">
-  <link rel="stylesheet" href="assets/css/qs.css">
-  <link rel="stylesheet" href="assets/css/dialogs.css">
-  <link rel="stylesheet" href="assets/css/translation.css">
-  <!-- <script src="assets/js/home/initGoogleTranslate.js" defer></script> -->
 
-  <script src="assets/js/sidebar.js?14" defer></script>
-  <script src="assets/js/dialogs.js?2"></script>
-  <script src="assets/js/functions.js?5"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="scripts.js?14" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/js/bootstrap.min.js" integrity="sha512-WW8/jxkELe2CAiE4LvQfwm1rajOS8PHasCCx+knHG0gBHt8EXxS6T6tJRTGuDQVnluuAvMxWF4j8SNFDKceLFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script> -->
+  <!-- <script src="assets/js/talk.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.8.335/pdf.min.js"></script>
+
+  <!-- Add your custom css files and js files in admin-dynamic-imports.php  -->
+  <?php include 'includes/student-dynamic-imports.php' ?>
+
      <!-- <script>
 
     var message = "Not alowed!!";
@@ -61,10 +56,6 @@
     </div>
 
     <div class="right-nav">
-      <!-- <div class="gtranslate_wrapper"></div>
-      <script>window.gtranslateSettings = {"default_language":"en","languages":["en","tr","fr","de","it","es"],"wrapper_selector":".gtranslate_wrapper","switcher_horizontal_position":"left","switcher_vertical_position":"bottom","float_switcher_open_direction":"bottom","flag_style":"3d"}</script>
-      <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
-     -->
       <p id="userName" class="locked-text"></p>
       <img src="" alt="User Profile Image" class="user-avatar" id="userPhoto">
       <div class="logout-icon two-column-grid" onclick="logoutDialog()">
@@ -227,7 +218,8 @@
               </div>
             </div>
 
-            <button class="set-button" id="set-button"><i class="fas fa-cog"></i> Set</button>
+            <button class="set-button" id="set-button"><i class="fas fa-cog"></i> 
+            <p class="locked-text" data-en="Set" data-tr="Ayarla"></p></button>
           </div>
 
           <div class="timer-section">
@@ -273,7 +265,10 @@
             placeholder="Type your message, then press Shift + Enter"></textarea>
 
           <!-- <i class="fas fa-paper-plane" style="color:blue"></i> -->
-          <button id="sendIcon">send</button>
+          <button id="sendIcon" 
+                class="locked-text"
+                data-en="Send"
+                data-tr="Gönder"></button>
 
         </div>
       </div>
@@ -370,7 +365,10 @@
         </div>
         <div class="send-chatroom-message-box">
           <textarea id="chatroom-message-textarea" placeholder="Type your message and press Enter"></textarea>
-          <button onclick="sendMessageTriggered()">send</button>
+          <button onclick="sendMessageTriggered()" 
+                class="locked-text"
+                data-en="Send"
+                data-tr="Gönder"></button>
         </div>
       </div>
     </div>
@@ -436,7 +434,10 @@
                 </div>
               </div>
 
-              <button class="set-button btn btn-primary" id="grades-button">Show</button>
+              <button class="set-button btn btn-primary locked-text" id="grades-button"
+              data-en="Show"
+              data-tr="Göster"
+              ></button>
             </div>
 
 
@@ -504,7 +505,12 @@
 
               <!-- <div class="column"> -->
               <!-- <div> -->
-              <button class="set-button btn btn-primary" id="semester-grades-button">Show</button>
+              <button class="set-button btn btn-primary locked-text" 
+              data-en="Show"
+              data-tr="Göster"
+              id="semester-grades-button">
+
+              </button>
               <!-- </div> -->
               <!-- </div> -->
 
@@ -584,7 +590,7 @@
       <!-- Content for Timetable tab -->
 
       <div class="my-timetable">
-        <h2 class="tab-title">Timetable</h2>
+        <h2 class="tab-title locked-text" data-en="Timetable" data-tr="Ders Programı"></h2>
 
         <div class="button-group" role="group">
           <button type="button" class="btn btn-secondary" id="week-btn">This Week</button>
@@ -648,7 +654,10 @@
 
               <div class="buttonsM">
                 <button type="button" class="cancel-btn" onclick="cancelCreateMessage()">Cancel</button>
-                <button type="button" onclick="sendMessageB()">Send</button>
+                <button type="button" onclick="sendMessageB()" 
+                class="locked-text"
+                data-en="Send"
+                data-tr="Gönder"></button>
               </div>
             </form>
           </div>
@@ -744,7 +753,10 @@
           <form id="api-key-form">
             <label for="api-key-input">Register/Update Your API Key:</label>
             <input type="text" class="form-control" id="api-key-input" required>
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" class="btn btn-primary locked-text"
+            data-en="Save"
+            data-tr="Kaydet"
+            ></button>
           </form>
 
           <div class="api-key-link">
@@ -886,18 +898,6 @@
   <!--  </div>-->
 
   <!--</footer>-->
-
-  <script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script> -->
-  <!-- <script src="assets/js/talk.js"></script> -->
-  <script src="assets/js/qs.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.8.335/pdf.min.js"></script>
-
-
 
   <script>
     // Function to send chat message to the server

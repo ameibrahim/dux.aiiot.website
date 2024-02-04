@@ -128,7 +128,7 @@ function generateRandomString($length = 6) {
 }
 
 
-function signupStudent($conn, $uid, $name, $email, $phone, $stdNumber, $address, $password, $department, $photoName)
+function signup($conn, $uid, $name, $email, $phone, $stdNumber, $address, $password, $department, $photoName, $utype)
 {
     // Validate the signup data
         // Check if the email already exists in the database
@@ -163,7 +163,7 @@ function signupStudent($conn, $uid, $name, $email, $phone, $stdNumber, $address,
 
     // Insert user data into the database
     $sql = "INSERT INTO users (`uid`, `name`, `email`, `password`, `phone`, `stdnumber`, `address`, `department`, `status`, `photo`, `utype`) 
-            VALUES ('$uid', '$name', '$email', '$password', '$phone', '$stdNumber', '$address', '$department', '$status', '$photoName', 'student')";
+            VALUES ('$uid', '$name', '$email', '$password', '$phone', '$stdNumber', '$address', '$department', '$status', '$photoName', '$utype')";
 
     if ($conn->query($sql) === TRUE) {
         $user = array(
@@ -204,99 +204,6 @@ function signupStudent($conn, $uid, $name, $email, $phone, $stdNumber, $address,
 // }
     $conn->close();
 }
-
-
-function signupT($conn, $name, $email, $phone, $stdNumber, $address, $department, $selectedCourses, $photo)
-{
-    // Validate the signup data
-    // ...
-
-    // Generate UID and set default status
-    $uid = 'U' . rand(100, 999); // Random UID between 100 and 999
-    $status = 'Inactive';
-    $password = generateRandomString(6);
-
-    // Upload the photo file
-    $targetDir = "../uploads/"; // Directory to store uploaded files
-    $targetFile = $targetDir . basename($photo["name"]);
-    $targetFileSave = "uploads/" . basename($photo["name"]);
-    $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
-
-    // Check if image file is a valid image
-    $check = getimagesize($photo["tmp_name"]);
-    if ($check === false) {
-        echo json_encode(array("error" => "File is not an image."));
-        return;
-    }
-
-    // Check file size
-    if ($photo["size"] > 500000) {
-        echo json_encode(array("error" => "File is too large."));
-        return;
-    }
-
-    // Allow certain file formats
-    if ($imageFileType !== "jpg" && $imageFileType !== "png" && $imageFileType !== "jpeg" && $imageFileType !== "gif") {
-        echo json_encode(array("error" => "Only JPG, JPEG, PNG, and GIF files are allowed."));
-        return;
-    }
-
-    // If everything is ok, move the uploaded file to the target directory
-    if (move_uploaded_file($photo["tmp_name"], $targetFile)) {
-        // Insert user data into the database
-        $sql = "INSERT INTO users (`uid`, `name`, `email`, `password`, `phone`, `stdnumber`, `address`, `department`, `status`, `photo`, `utype`) 
-                VALUES ('$uid', '$name', '$email', '$password', '$phone', '$stdNumber', '$address', '$department', '$status', '$targetFileSave', 'Teacher')";
-
-        if ($conn->query($sql) === TRUE) {
-            $user = array(
-                'uid' => $uid,
-                'name' => $name,
-                'email' => $email,
-                'phone' => $phone,
-                'stdnumber' => $stdNumber,
-                'address' => $address,
-                'department' => $department,
-                'status' => 'ok'
-            );
-
-            // Send an email to the user
-            $message = "<html>
-                <head>
-                </head>
-                <body>
-                    <p>Dear <strong>$name</strong>,</p>
-                    <p>This email is to confirm the creation of your account in DUX LMS:</p>
-                    <p>Your password is: <a href='#'>$password</a></p>
-                    <p>You can now login <a href='https://dux.aiiot.website/auth.html'>here</a> </p>
-                    
-                    <p>Best regards,</p>
-                    <p>Mercel from DUX</p>
-                </body>
-                </html>";
-
-            sendEmail($email, $message);
-
-            // Update course createdBy for selected courses
-            foreach ($selectedCourses as $courseId) {
-                $updateSql = "UPDATE courses SET createdBy = '$stdNumber' WHERE courseId = '$courseId'";
-                if ($conn->query($updateSql) !== TRUE) {
-                    echo json_encode(array("error" => "Error updating course: " . $conn->error));
-                    return;
-                }
-            }
-
-            echo json_encode($user);
-        } else {
-            echo json_encode(array("error" => "Error: " . $sql . "<br>" . $conn->error));
-        }
-    } else {
-        echo json_encode(array("error" => "Sorry, there was an error uploading your file."));
-    }
-
-    $conn->close();
-}
-
 
 function generateRandomToken($length = 32) {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -370,7 +277,7 @@ function login($conn, $email, $password)
         echo json_encode($user);
 
     } else {
-        $res = array('state' =>'ko',
+        $res = array('state' =>'error',
         'message' =>'Invalid email or password.');
         echo json_encode($res);
     }
@@ -405,7 +312,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }elseif($action ==='logout'){
         $email = $_POST['email'];
         mysqli_query($conn, "UPDATE users SET status = 'Inactive' WHERE email = '$email' ");
-    } elseif ($action === 'signupStudent') {
+    } elseif ($action === 'signup') {
         $uid = $_POST['uid'];
         $name = $_POST['name'];
         $email = $_POST['email'];
@@ -415,24 +322,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $department = $_POST['department'];
         $password = $_POST['password'];
         $photoName = 'uploads/' . $_POST['photoName'];
-        signupStudent($conn, $uid, $name, $email, $phone, $stdNumber, $address, $password, $department, $photoName);
-    }elseif ($action === 'signupT') {
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $phone = $_POST['phone'];
-        $stdNumber = $_POST['stdnumber'];
-        $address = $_POST['address'];
-        $department = $_POST['department'];
-        $selectedCourses = $_POST['selectedCourses'];
-
-        // Access the selected courses array
-        foreach ($selectedCourses as $courseId) {
-          // Do something with each selected course
-          updateCourseCreatedBy($conn, $courseId, $stdNumber);
-        }
-        $photo = $_FILES['photo'];
-        signupT($conn, $name, $email, $phone, $stdNumber, $address, $department,$selectedCourses, $photo);
-    } elseif ($action === 'fetchGrades') {
+        $utype = $_POST['utype'];
+        signup($conn, $uid, $name, $email, $phone, $stdNumber, $address, $password, $department, $photoName, $utype);
+    }elseif ($action === 'fetchGrades') {
         $studentId = $_POST['studentId'];
         $courseId = $_POST['courseId'];
         $topicId = $_POST['topicId'];

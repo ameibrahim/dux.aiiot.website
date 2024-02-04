@@ -5,52 +5,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Panel</title>
+
   <link href="https://fonts.googleapis.com/css?family=DM+Sans:400,400i,700,700i" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-  <!-- Bootstrap CSS -->
-  <!-- Custom CSS -->
-  <!-- <link rel="stylesheet" href="styles.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link rel="stylesheet" href="../assets/css/home/old-styles.css?26">
-  <link rel="stylesheet" href="../assets/css/home/index.css?30">
-  <link rel="stylesheet" href="../assets/css/home/header.css?26">
-  <link rel="stylesheet" href="../assets/css/home/main.css?29">
-  <link rel="stylesheet" href="../assets/css/home/sidenavigation.css?26">
-  <link rel="stylesheet" href="../assets/css/home/tab-card.css?28">
-  <link rel="stylesheet" href="../assets/css/home/chat.css?26">
-  <link rel="stylesheet" href="../assets/css/home/grade-cards.css?26">
-  <link rel="stylesheet" href="../assets/css/home/footer.css?26">
-  <link rel="stylesheet" href="../assets/css/home/table.css?26">
-    <link rel="stylesheet" href="../assets/css/pdf-viewer.css?3">
-
-
-
-  <link rel="stylesheet" href="../assets/css/tab.css?26">
-  <link rel="stylesheet" href="../assets/css/dialogs.css?5">
-  <link rel="stylesheet" href="../assets/css/translation.css?1">
-  <link rel="stylesheet" href="../assets/css/batch-select.css?1">
-  <link rel="stylesheet" href="../assets/css/dropdown.css?1">
-  <link rel="stylesheet" href="../assets/css/profile.css?4">
-  <link rel="stylesheet" href="../assets/css/spinkit.css">
-
-  <script src="../assets/js/tab.js?26" defer></script>
-  <script src="../assets/js/dialogs.js?3"></script>
-  <script src="../assets/js/functions.js?11" defer></script>
-  <script src="../assets/js/admin/weightAssignments.js?1" defer></script>
-  <script src="../assets/js/sidebar.js?28" defer></script>
-  <script src="../assets/js/dropdown.js?1" defer></script>
-  <script src="../assets/js/admin/index.js?3" defer></script>
-  <script src="../assets/js/pdf-viewer.js" defer></script>
-
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+  <!-- Add your custom css files and js files in admin-dynamic-imports.php  -->
+  <?php include '../includes/admin-dynamic-imports.php' ?>
 
 </head>
 
@@ -71,10 +39,6 @@
   
   <!-- Header 
 
-  <div class="gtranslate_wrapper"></div>
-  <script>window.gtranslateSettings = {"default_language":"en","languages":["en","tr","fr","de","it","es"],"wrapper_selector":".gtranslate_wrapper","switcher_horizontal_position":"left","switcher_vertical_position":"bottom","float_switcher_open_direction":"bottom","flag_style":"3d"}</script>
-  <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
-
    <script>
 
     var message = "Not allowed!!";
@@ -92,6 +56,10 @@
     }
 
   </script> -->
+
+  <div class="gtranslate_wrapper"></div>
+  <script>window.gtranslateSettings = {"default_language":"en","languages":["en","tr","fr","de","it","es"],"wrapper_selector":".gtranslate_wrapper","switcher_horizontal_position":"left","switcher_vertical_position":"bottom","float_switcher_open_direction":"bottom","flag_style":"3d"}</script>
+  <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
 
 
   <header class="header-navigation">
@@ -1528,43 +1496,63 @@ async function edituserprofile(){
 
 </script>
 <script>    
-function getStudentList() {
-    fetch('../api/api.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ action: 'getstudentlist' })
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.error) {
-            throw new Error(data.error);
-        }
-        const select = document.getElementById('instructor-list');
-        select.innerHTML = '<option value="">Select student</option>';
-        data.forEach(student => {
-            const option = document.createElement('option');
-            option.value = student.uid;
-            option.textContent = student.name;
-            select.appendChild(option);
-        });
-    })
-    .catch(error => {
-        console.error('Error fetching student list:', error);
-    });
+
+async function getStudentList() {
+    
+  // fetch('../api/api.php', {
+  //       method: 'POST',
+  //       headers: {
+  //           'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({ action: 'getstudentsList' })
+  //   })
+  //   .then(response => {
+  //       if (!response.ok) {
+  //           throw new Error('Network response was not ok');
+  //       }
+  //       return response.json();
+  //   })
+  //   .then(data => {
+  //       if (data.error) {
+  //           throw new Error(data.error);
+  //       }
+  //       const select = document.getElementById('instructor-list');
+  //       select.innerHTML = '<option value="">Select student</option>';
+  //       data.forEach(student => {
+  //           const option = document.createElement('option');
+  //           option.value = student.uid;
+  //           option.textContent = student.name;
+  //           select.appendChild(option);
+  //       });
+  //   })
+  //   .catch(error => {
+  //       console.error('Error fetching student list:', error);
+  //   });
+
+  let studentList = await AJAXCall({
+              phpFilePath: "../api/api.php",
+              rejectMessage: "Details not fetched",
+              params: `action=getstudentsList`,
+              type: "fetch"
+            });
+          
+
+  console.log("studentList:", studentList);
+
+  // TODO: This student list is for the messaging feature
 }
+
+
 
 getStudentList();
 
 
 </script>
   <script>
+
+      var sid = JSON.parse(sessionStorage.getItem('user')).stdnumber;
+      console.log("_sid:", sid);
+
      $(document).ready(function () {
         var userData = JSON.parse(sessionStorage.getItem('user'));
         let auth= userData.utype;
@@ -1818,19 +1806,11 @@ getStudentList();
         });
       });
 
-
-
-
-
-
-
-
-
-      // Fetch courses using AJAX (Replace with your API call)
+            // Fetch courses using AJAX (Replace with your API call)
       $.ajax({
         url: '../api/api.php',
         type: 'POST',
-        data: {teacherId:sid, action: 'getCoursesTeacher' },
+        data: {teacherId: sid, action: 'getCoursesTeacher' },
         success: function (response) {
           var courses = JSON.parse(response);
           var courseSelect = $('#courseSCH');

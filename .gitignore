@@ -1,3 +1,5 @@
 error_log
 adminPanel/error_log
 .git
+*.zip
+*/*.zip

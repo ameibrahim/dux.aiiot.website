@@ -7,6 +7,8 @@ let teacherForm = document.querySelector(".teacher-form");
 let studentTabButton = document.querySelector(".student-tab-button");
 let teacherTabButton = document.querySelector(".teacher-tab-button");
 
+let bubbleMessageContainer = document.querySelector(".bubble-message-container");
+
 let isTeacherOrStudent = "student";
 
 function showSignup(){
@@ -45,6 +47,7 @@ function uniqueID(stregth = 2){
     const dateReversed = parseInt(String(date).split("").reverse().join(""));
     const base36 = number => (number).toString(36);
     if(stregth == 1) return base36(date);
+    if(stregth == -1) return  base36(dateReversed);
     return base36(dateReversed) + base36(date);
 }
 
@@ -70,13 +73,12 @@ async function login(){
     try {
 
         let result = await AJAXCall(callObject)
-        sessionStorage.setItem('user', result);
+        let _result = JSON.parse(result);
 
-        if (result) {
-            let parsedResult = JSON.parse(result); 
-            let utype = parsedResult.utype; 
+        if (_result.state != "error") {
+            sessionStorage.setItem('user', result);
+            let { utype } = _result; 
 
-       
             switch(utype){
                 case "Admin":
                 case "Teacher":
@@ -88,27 +90,25 @@ async function login(){
 
             }
         }
- else {
-    console.log("error:", result);
-
-
-    var errorContainer = document.getElementById("error-container");
-    var errorMessage = errorContainer.querySelector(".error-message");
-
-    errorMessage.textContent = "Wrong Credentials";
-
-    errorContainer.style.display = "block";
-}
-
-
-
-
-
+        else {
+            showLoginError();
+        }
     }
     catch(error){
+        showLoginError();
     }
 
+}
 
+function showLoginError(){
+    
+    bubbleMessageContainer.textContent = "Wrong Credentials";
+
+    bubbleMessageContainer.style.top = "-100px";
+
+    setTimeout(() => {
+        bubbleMessageContainer.style.top = "0%";
+    },2000);
 }
 
 function bubbleError(errorMessage){
@@ -201,7 +201,7 @@ async function signup(){
         let phone = studentPhone.value;
         let password = studentPassword.value;
 
-        params =`action=signupStudent` + `&&uid=${uid}` + `&&name=${name}&&` + `studentno=${studentno}` + `&&department=${department}` + `&&email=${email}` + `&&address=${address}` + `&&phone=${phone}` + `&&password=${password}` + `&&photoName=${photoName}`;
+        params =`action=signup&utype=student` + `&&uid=${uid}` + `&&name=${name}&&` + `studentno=${studentno}` + `&&department=${department}` + `&&email=${email}` + `&&address=${address}` + `&&phone=${phone}` + `&&password=${password}` + `&&photoName=${photoName}`;
 
     }
 
@@ -219,8 +219,9 @@ async function signup(){
         let address = teacherAddress.value;
         let phone = teacherPhone.value;
         let password = teacherPassword.value;
+        let teacherID = "TD" + uniqueID(-1); // Genarate random ID number for the teacher.
 
-        params = `uid=${uid}&&name=${name}&department=${department}&email=${email}&address=${address}&phone=${phone}&password=${password}&photoName=${photoName}&action=teacherSignup`;
+        params = `uid=${uid}&name=${name}&studentno=${teacherID}&department=${department}&email=${email}&address=${address}&phone=${phone}&password=${password}&photoName=${photoName}&action=signup&utype=Teacher`;
 
     }
 }
