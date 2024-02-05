@@ -764,32 +764,7 @@
               out how to get one</a>
           </div>
 
-<div class="tab-contents" id="profile-settings" data-tab="Profile-settings-link">
-       <h1 class="tab-title">Profile Settings</h1>
-  <div class="profile-container">
-   <div class="profile-picture">
-  <img id="userPhotos" src="" alt="User Photo">
-  <input type="file" id="fileInput" accept="image/*" onchange="loadFile(event)">
-  <button class="editt-photo-btn" onclick="document.getElementById('fileInput').click();">&#9998;</button>
-</div>
-     <div class="profile-fields">
-    <input type="text" placeholder="Name" id="name">
-    <input type="text" placeholder="Student No" id="studentno" readonly>
-    <input type="text" placeholder="Email" id="email" readonly>
-    <input type="text" placeholder="Phone No" id="phone">
-    <input type="text" placeholder="Address" id="address">
 
-     </div>
-
-            
-            <div class="profile-footer">
-<button class="save-btn locked-text" onClick="edituserprofile()" id="editButton" data-en="Save" data-tr="Kaydet"></button>
-
-
-
-            </div>
-        </div>
-    </div>
         </div>
         
       </div>
@@ -813,36 +788,34 @@
       </div>
     </div> 
 
-    
-<div class="tab-contents" id="profile-settings" data-tab="Profile-settings-link">
-       <h1 class="tab-title">Profile Settings</h1>
-<div class="profile-container">
-   <div class="profile-picture">
-  <img id="userPhotos" src="" alt="User Photo">
-  <input type="file" id="fileInput" accept="image/*" onchange="loadFile(event)">
-  <button class="editt-photo-btn" onclick="document.getElementById('fileInput').click();">&#9998;</button>
-</div>
-     <div class="profile-fields">
-    <input type="text" placeholder="Name" id="name">
-    <input type="text" placeholder="Student No" id="studentno" readonly>
-    <input type="text" placeholder="Email" id="email" readonly>
-    <input type="text" placeholder="Phone No" id="phone">
-    <input type="text" placeholder="Address" id="address">
+    <div class="tab-contents" id="profile-settings" data-tab="Profile-settings-link">
+        <h1 class="tab-title">Profile Settings</h1>
+        
+        <div class="profile-container">
+          <div class="profile-picture">
+            <img id="userPhotos" src="" alt="User Photo">
+            <input type="file" id="fileInput" accept="image/*" onchange="loadFile(event)">
+            <button class="editt-photo-btn" onclick="document.getElementById('fileInput').click();">&#9998;</button>
+          </div>
+        
+          <div class="profile-fields">
+            <input type="text" placeholder="Name" id="name">
+            <input type="text" placeholder="Student No" id="studentno" readonly>
+            <input type="text" placeholder="Email" id="email" readonly>
+            <input type="text" placeholder="Phone No" id="phone">
+            <input type="text" placeholder="Address" id="address">
+          </div>
 
-     </div>
-
-            
-            <div class="profile-footer">
-<button class="save-btn locked-text" onClick="edituserprofile()" id="editButton" data-en="Save" data-tr="Kaydet"></button>
-
-
-
-            </div>
+          <div class="profile-footer">
+            <button class="save-btn locked-text" onClick="edituserprofile()" id="editButton" data-en="Save" data-tr="Kaydet"></button>
+          </div>
         </div>
     </div>
-        </div>
-</body>
 
+  
+</div>
+
+</body>
 </html>
 
 

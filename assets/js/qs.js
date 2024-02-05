@@ -1,4 +1,23 @@
+let OPENAI_API_KEY = "";
+        
+( async () => {
 
+    let result = await fetchOpenAIKey();
+    OPENAI_API_KEY = result[0].apiKey;
+    console.log("apiKey: ", OPENAI_API_KEY);
+
+})();
+
+async function fetchOpenAIKey(phpFilePath = "api/openAIKey.php"){
+
+    return await AJAXCall({
+        phpFilePath,
+        rejectMessage: "Key Not Fetched",
+        params: '',
+        type: "fetch"
+    });
+
+}
 
 // Sample question bank in JSON format
 
@@ -936,19 +955,19 @@ function generateExamReceiptPDF() {
 
 
 // Function to generate the receipt document
-// const OPENAI_API_KEY = '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';
-// const OPENAI_API_KEY = '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';
+// OPENAI_API_KEY = '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';
+// OPENAI_API_KEY = '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';
 
 //jeries
-// const OPENAI_API_KEY = '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';
+// OPENAI_API_KEY = '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';
 
 //dux ok
-// const OPENAI_API_KEY = "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";
+// OPENAI_API_KEY = "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";
 
 //save cash ok
-// const OPENAI_API_KEY = "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";
-const OPENAI_API_KEY = "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";
-// const OPENAI_API_KEY = "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";
+// OPENAI_API_KEY = "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";
+// OPENAI_API_KEY = "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";
+// OPENAI_API_KEY = "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";
 
 
 async function generateResponse(prompt, topics) {

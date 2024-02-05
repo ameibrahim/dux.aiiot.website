@@ -5,8 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exam Questions App</title>
+
 <!-- Bootstrap CSS -->
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+<script src="../../assets/js/functions.js"></script>
+<script src="../../assets/js/openAIKey.js"></script>
 
 </head>
 <body>
@@ -135,8 +139,9 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <!-- Custom scripts -->
 <script src="qsg.js"></script>
-<script>
 
+<script>
+  
         // Function to start the loader
 function startLoader() {
         $('#loaderModal').modal({ backdrop: 'static', keyboard: false });
@@ -399,21 +404,21 @@ let questionBank = {};
 
       
 // Function to generate the receipt document
-// const OPENAI_API_KEY = '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';
-// const OPENAI_API_KEY = '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';
+// OPENAI_API_KEY = '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';
+// OPENAI_API_KEY = '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';
 
-//jeries
+//
 // const OPENAI_API_KEY = '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';
-// const OPENAI_API_KEY = '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';
+// OPENAI_API_KEY = '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';
 
 //dux ok
-// const OPENAI_API_KEY = "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";
+// OPENAI_API_KEY = "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";
 
 //save cash ok
-// const OPENAI_API_KEY = "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";
-// const OPENAI_API_KEY = "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";
-// const OPENAI_API_KEY = "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";
-const OPENAI_API_KEY = "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";
+// OPENAI_API_KEY = "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";
+// OPENAI_API_KEY = "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";
+// OPENAI_API_KEY = "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";
+// OPENAI_API_KEY = "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";
 
 async function generateResponse(prompt, topics) {
 
